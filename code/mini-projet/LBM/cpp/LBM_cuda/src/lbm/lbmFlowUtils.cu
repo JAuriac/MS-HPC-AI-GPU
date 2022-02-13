@@ -23,13 +23,13 @@ void macroscopic(const LBMParams& params,
   // dim3 blockSize(nbThreads,1,1);
   // dim3 gridSize((N+1)/nbThreads,1,1);
 
-  // unsigned int threadsPerBlockX=32;
-  // unsigned int threadsPerBlockY=32;
-  // dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
-  // dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
+  unsigned int threadsPerBlockX=32;
+  unsigned int threadsPerBlockY=32;
+  dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
+  dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
 
-  dim3 blockSize(32);
-  dim3 gridSize(nx/32,ny);
+  // dim3 blockSize(32);
+  // dim3 gridSize(nx/32,ny);
 
   macroscopic_kernel<<<gridSize,blockSize>>>(params,v,fin_d,rho_d,ux_d,uy_d); 
   // macroscopic_kernel(params, 
@@ -38,6 +38,8 @@ void macroscopic(const LBMParams& params,
   //                    rho_d,
   //                    ux_d,
   //                    uy_d);
+
+  CUDA_KERNEL_CHECK( "macroscopic_kernel" );
 
 } // macroscopic
 
@@ -56,13 +58,13 @@ void equilibrium(const LBMParams& params,
   const int ny = params.ny;
 
   // TODO : call kernel
-  // unsigned int threadsPerBlockX=32;
-  // unsigned int threadsPerBlockY=32;
-  // dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
-  // dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
+  unsigned int threadsPerBlockX=32;
+  unsigned int threadsPerBlockY=32;
+  dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
+  dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
 
-  dim3 blockSize(32);
-  dim3 gridSize(nx/32,ny);
+  // dim3 blockSize(32);
+  // dim3 gridSize(nx/32,ny);
   equilibrium_kernel<<<gridSize,blockSize>>>(params,v,t,rho_d,ux_d,uy_d,feq_d); 
   // equilibrium_kernel(params, 
   //             v,
@@ -71,6 +73,8 @@ void equilibrium(const LBMParams& params,
   //             ux_d,
   //             uy_d,
   //             feq_d);
+
+  CUDA_KERNEL_CHECK( "equilibrium" );
 
 } // equilibrium
 
@@ -188,17 +192,26 @@ void border_outflow(const LBMParams& params, real_t* fin_d)
 
   // TODO : call kernel
   // unsigned int threadsPerBlockX=32;
-  // unsigned int threadsPerBlockY=32;
+  unsigned int threadsPerBlockY=32;
   // dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
   // dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
+  // dim3 gridSize((ny+blockSize.y-1)/blockSize.y,1,1);
 
-  dim3 blockSize(32,1,1);
-  dim3 gridSize(ny/32,1,1);
+  dim3 blockSize(threadsPerBlockY,1,1);
+  // dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
+  dim3 gridSize((ny+blockSize.x-1)/blockSize.x,1,1);
+
+  // dim3 blockSize(32,1,1);
+  // dim3 gridSize(ny/32,1,1);
+  // dim3 gridSize(nx/32,ny); 
+  // dim3 blockSize(32);
   border_outflow_kernel<<<gridSize,blockSize>>>(params,fin_d);
   // border_outflow_kernel(params, fin_d);
 
   // CUDA_API_CHECK( cudaMemcpy( fin_d, fin, nx*ny * sizeof(real_t),
   //                             cudaMemcpyHostToDevice ) );
+
+  CUDA_KERNEL_CHECK( "border_outflow" );
 
 } // border_outflow
 
@@ -214,15 +227,22 @@ void border_inflow(const LBMParams& params, const real_t* fin_d,
 
   // TODO : call kernel
   // unsigned int threadsPerBlockX=32;
-  // unsigned int threadsPerBlockY=32;
+  unsigned int threadsPerBlockY=32;
   // dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
   // dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
+  // dim3 gridSize((ny+blockSize.y-1)/blockSize.y,1,1);
 
-  dim3 blockSize(32);
-  dim3 gridSize(ny/32);
+  dim3 blockSize(threadsPerBlockY,1,1);
+  // dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
+  dim3 gridSize((ny+blockSize.x-1)/blockSize.x,1,1);
+
+  // dim3 blockSize(32);
+  // dim3 gridSize(ny/32);
   border_inflow_kernel<<<gridSize,blockSize>>>(params,fin_d,rho_d,ux_d,uy_d);
   // border_inflow_kernel(params, fin_d, 
   //                      rho_d, ux_d, uy_d);
+
+  CUDA_KERNEL_CHECK( "border_inflow" );
 
 } // border_inflow
 
@@ -238,15 +258,19 @@ void update_fin_inflow(const LBMParams& params, const real_t* feq_d,
 
   // TODO : call kernel
   // unsigned int threadsPerBlockX=32;
-  // unsigned int threadsPerBlockY=32;
+  unsigned int threadsPerBlockY=32;
   // dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
+  dim3 blockSize(threadsPerBlockY,1,1);
   // dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
+  dim3 gridSize((ny+blockSize.x-1)/blockSize.x,1,1);
 
-  dim3 blockSize(32);
-  dim3 gridSize(ny/32);
+  // dim3 blockSize(32);
+  // dim3 gridSize(ny/32);
   update_fin_inflow_kernel<<<gridSize,blockSize>>>(params,feq_d,fin_d);
   // update_fin_inflow_kernel(params, feq_d, 
   //                          fin_d);
+
+  CUDA_KERNEL_CHECK( "update_fin_inflow" );
 
 } // update_fin_inflow
   
@@ -262,18 +286,20 @@ void compute_collision(const LBMParams& params,
   const int ny = params.ny;
 
   // TODO : call kernel
-  // unsigned int threadsPerBlockX=32;
-  // unsigned int threadsPerBlockY=32;
-  // dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
-  // dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
+  unsigned int threadsPerBlockX=32;
+  unsigned int threadsPerBlockY=32;
+  dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
+  dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
 
-  dim3 blockSize(32);
-  dim3 gridSize(nx/32,ny);
+  // dim3 blockSize(32);
+  // dim3 gridSize(nx/32,ny);
   compute_collision_kernel<<<gridSize,blockSize>>>(params,fin_d,feq_d,fout_d);
   // compute_collision_kernel(params, 
   //                          fin_d,
   //                          feq_d,
   //                          fout_d);
+
+  CUDA_KERNEL_CHECK( "compute_collision_kernel" );
 
 } // compute_collision
 
@@ -289,18 +315,20 @@ void update_obstacle(const LBMParams &params,
   const int ny = params.ny;
 
   // TODO : call kernel
-  // unsigned int threadsPerBlockX=32;
-  // unsigned int threadsPerBlockY=32;
-  // dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
-  // dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
+  unsigned int threadsPerBlockX=32;
+  unsigned int threadsPerBlockY=32;
+  dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
+  dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
 
-  dim3 blockSize(32);
-  dim3 gridSize(nx/32,ny);
+  // dim3 blockSize(32);
+  // dim3 gridSize(nx/32,ny);
   update_obstacle_kernel<<<gridSize,blockSize>>>(params,fin_d,obstacle_d,fout_d);
   // update_obstacle_kernel(&params, 
   //                        fin_d,
   //                        obstacle_d, 
   //                        fout_d);
+
+  CUDA_KERNEL_CHECK( "update_obstacle" );
 
 } // update_obstacle
 
@@ -316,17 +344,19 @@ void streaming(const LBMParams& params,
   const int ny = params.ny;
 
   // TODO : call kernel
-  // unsigned int threadsPerBlockX=32;
-  // unsigned int threadsPerBlockY=32;
-  // dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
-  // dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
+  unsigned int threadsPerBlockX=32;
+  unsigned int threadsPerBlockY=32;
+  dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
+  dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
 
-  dim3 blockSize(32);
-  dim3 gridSize(nx/32,ny);
+  // dim3 blockSize(32);
+  // dim3 gridSize(nx/32,ny);
   streaming_kernel<<<gridSize,blockSize>>>(params,v,fout_d,fin_d);
   // streaming_kernel(params,
   //                  v,
   //                  fout_d,
   //                  fin_d);
+
+  CUDA_KERNEL_CHECK( "streaming_kernel" );
 
 } // streaming

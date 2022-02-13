@@ -3,12 +3,13 @@
 
 // ================================================================
 // ================================================================
-__global__ void macroscopic_kernel(const LBMParams params,
-                                   const velocity_array_t v,
-                                   const real_t* fin_d,
-                                   real_t* rho_d,
-                                   real_t* ux_d,
-                                   real_t* uy_d)
+__global__ 
+void macroscopic_kernel(const LBMParams params,
+                        const velocity_array_t v,
+                        const real_t* fin_d,
+                        real_t* rho_d,
+                        real_t* ux_d,
+                        real_t* uy_d)
 {
 
   // TODO
@@ -202,7 +203,7 @@ __global__ void update_fin_inflow_kernel(const LBMParams params,
 
   // } // end for j
 
-} // border_inflow_kernel
+} // update_fin_inflow_kernel
 
 // ================================================================
 // ================================================================
