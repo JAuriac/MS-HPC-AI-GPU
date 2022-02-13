@@ -21,8 +21,8 @@ target_include_directories(lbmMonitoring
 # the COMPILE_LANGUAGE:CUDA line below
 #
 target_compile_options(lbmMonitoring PUBLIC
-  $<$<COMPILE_LANGUAGE:CXX>:${OpenMP_CXX_FLAGS}>
-  #$<$<COMPILE_LANGUAGE:CUDA>:-Xcompiler ${OpenMP_CXX_FLAGS}>
+  #$<$<COMPILE_LANGUAGE:CXX>:${OpenMP_CXX_FLAGS}>
+  $<$<COMPILE_LANGUAGE:CUDA>:-Xcompiler ${OpenMP_CXX_FLAGS}>
   )
 
 if(OpenMP_CXX_FOUND)

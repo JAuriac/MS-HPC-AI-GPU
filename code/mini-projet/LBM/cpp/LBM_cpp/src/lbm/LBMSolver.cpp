@@ -84,10 +84,11 @@ void LBMSolver::run()
 
   // time loop
   for (int iTime=0; iTime<params.maxIter; ++iTime) {
+    // std::cout << iTime << std::endl;
 
-    if (iTime % 100 == 0) {
-      //output_png(iTime);
-      output_vtk(iTime);
+    if (iTime % 1000 == 0) {
+      output_png(iTime);
+      // output_vtk(iTime);
     }
 
     // Right wall: outflow condition.

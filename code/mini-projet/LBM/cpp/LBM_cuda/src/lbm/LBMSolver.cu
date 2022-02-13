@@ -25,6 +25,30 @@ LBMSolver::LBMSolver(const LBMParams& params) :
   // memory allocations
 
   // TODO
+  // distribution functions  
+  fin  = (real_t*) malloc(nx*ny*npop * sizeof(real_t));
+  fout = (real_t*) malloc(nx*ny*npop * sizeof(real_t));
+  feq  = (real_t*) malloc(nx*ny*npop * sizeof(real_t));
+
+  // macroscopic variables
+  rho = (real_t*) malloc(nx*ny * sizeof(real_t));
+  ux  = (real_t*) malloc(nx*ny * sizeof(real_t));
+  uy  = (real_t*) malloc(nx*ny * sizeof(real_t));
+
+  // obstacle
+  obstacle = (int *) malloc(nx*ny * sizeof(int));
+
+  // a = (int *) malloc(N*sizeof(int));
+  // CUDA_API_CHECK( cudaMalloc( (void**)&dev_a, N*sizeof(int) ) );
+  CUDA_API_CHECK( cudaMalloc( (void**)&fin_d, nx*ny*npop * sizeof(real_t) ) );
+  CUDA_API_CHECK( cudaMalloc( (void**)&fout_d, nx*ny*npop * sizeof(real_t) ) );
+  CUDA_API_CHECK( cudaMalloc( (void**)&feq_d, nx*ny*npop * sizeof(real_t) ) );
+  
+  CUDA_API_CHECK( cudaMalloc( (void**)&rho_d, nx*ny * sizeof(real_t) ) );
+  CUDA_API_CHECK( cudaMalloc( (void**)&ux_d, nx*ny * sizeof(real_t) ) );
+  CUDA_API_CHECK( cudaMalloc( (void**)&uy_d, nx*ny * sizeof(real_t) ) );
+
+  CUDA_API_CHECK( cudaMalloc( (void**)&obstacle_d, nx*ny * sizeof(int) ) );
 
 } // LBMSolver::LBMSolver
 
@@ -35,6 +59,38 @@ LBMSolver::~LBMSolver()
   // free memory
 
   // TODO
+  // free(c);
+  // CUDA_API_CHECK( cudaFree( dev_c ) );
+
+  CUDA_API_CHECK( cudaFree( obstacle_d ) );
+
+  CUDA_API_CHECK( cudaFree( uy_d ) );
+  CUDA_API_CHECK( cudaFree( ux_d ) );
+  CUDA_API_CHECK( cudaFree( rho_d ) );
+
+  CUDA_API_CHECK( cudaFree( feq_d ) );
+  CUDA_API_CHECK( cudaFree( fout_d ) );
+  CUDA_API_CHECK( cudaFree( fin_d ) );
+
+  // free(obstacle);
+  
+  // free(uy);
+  // free(ux);
+  // free(rho);
+
+  // free(feq);
+  // free(fout);
+  // free(fin); 
+
+  delete[] obstacle;
+
+  delete[] uy;
+  delete[] ux;
+  delete[] rho;
+
+  delete[] feq;
+  delete[] fout;
+  delete[] fin;
 
 } // LBMSolver::~LBMSolver
 
@@ -46,6 +102,8 @@ void LBMSolver::initialize()
   // initialize obstacle mask array
   init_obstacle_mask(params, obstacle, obstacle_d);
 
+  // std::cout << "Après init obstacle" << std::endl;
+
   // initialize macroscopic velocity
   initialize_macroscopic_variables(params, 
                                    rho, rho_d, 
@@ -55,6 +113,8 @@ void LBMSolver::initialize()
   // Initialization of the populations at equilibrium 
   // with the given macroscopic variables.
   equilibrium(params, v, t, rho_d, ux_d, uy_d, fin_d);
+
+  // std::cout << "Fin init" << std::endl;
   
 } // LBMSolver::initialize
 
@@ -62,21 +122,27 @@ void LBMSolver::initialize()
 // ======================================================
 void LBMSolver::run()
 {
+  // std::cout << "Avant init" << std::endl;
 
   initialize();
 
+  std::cout << "Après init" << std::endl;
+
   // time loop
   for (int iTime=0; iTime<params.maxIter; ++iTime) {
+    // std::cout << iTime << std::endl;
 
     if (iTime % 100 == 0) {
-      //output_png(iTime);
-      output_vtk(iTime);
+      output_png(iTime);
+      // output_vtk(iTime);
     }
 
     // Right wall: outflow condition.
     // we only need here to specify distrib. function for velocities
     // that enter the domain (other that go out, are set by the streaming step)
     border_outflow(params, fin_d);
+
+    // std::cout << "Après border outflow" << std::endl;
       
     // Compute macroscopic variables, density and velocity.
     macroscopic(params, v, fin_d, rho_d, ux_d, uy_d);
@@ -113,6 +179,25 @@ void LBMSolver::output_png(int iTime)
   const int ny = params.ny;
 
   // TODO : copy data device to host
+  // CUDA_API_CHECK( cudaMemcpy( c, dev_c, N*sizeof(int),
+  //                             cudaMemcpyDeviceToHost ) );
+  // CUDA_API_CHECK( cudaMemcpy( fin, fin_d, nx*ny*npop * sizeof(real_t),
+  //                             cudaMemcpyDeviceToHost ) );
+  // CUDA_API_CHECK( cudaMemcpy( fout, fout_d, nx*ny*npop * sizeof(real_t),
+  //                             cudaMemcpyDeviceToHost ) );
+  // CUDA_API_CHECK( cudaMemcpy( feq, feq_d, nx*ny*npop * sizeof(real_t),
+  //                             cudaMemcpyDeviceToHost ) );
+
+  // CUDA_API_CHECK( cudaMemcpy( rho, rho_d, nx*ny * sizeof(real_t),
+  //                             cudaMemcpyDeviceToHost ) );
+  CUDA_API_CHECK( cudaMemcpy( ux, ux_d, nx*ny * sizeof(real_t),
+                              cudaMemcpyDeviceToHost ) );
+  CUDA_API_CHECK( cudaMemcpy( uy, uy_d, nx*ny * sizeof(real_t),
+                              cudaMemcpyDeviceToHost ) );
+
+  // CUDA_API_CHECK( cudaMemcpy( obstacle, obstacle_d, nx*ny * sizeof(int),
+  //                             cudaMemcpyDeviceToHost ) );
+
 
   real_t* u2 = (real_t *) malloc(nx*ny*sizeof(real_t));
 
@@ -178,9 +263,30 @@ void LBMSolver::output_vtk(int iTime)
 
   std::cout << "Output data (VTK) at time " << iTime << "\n";
 
+  const int nx = params.nx;
+  const int ny = params.ny;
+
   bool useAscii = false; // binary data leads to smaller files
 
   // TODO : copy data device to host  
+  // CUDA_API_CHECK( cudaMemcpy( c, dev_c, N*sizeof(int),
+  //                             cudaMemcpyDeviceToHost ) );
+  // CUDA_API_CHECK( cudaMemcpy( fin, fin_d, nx*ny*npop * sizeof(real_t),
+  //                             cudaMemcpyDeviceToHost ) );
+  // CUDA_API_CHECK( cudaMemcpy( fout, fout_d, nx*ny*npop * sizeof(real_t),
+  //                             cudaMemcpyDeviceToHost ) );
+  // CUDA_API_CHECK( cudaMemcpy( feq, feq_d, nx*ny*npop * sizeof(real_t),
+  //                             cudaMemcpyDeviceToHost ) );
+
+  CUDA_API_CHECK( cudaMemcpy( rho, rho_d, nx*ny * sizeof(real_t),
+                              cudaMemcpyDeviceToHost ) );
+  CUDA_API_CHECK( cudaMemcpy( ux, ux_d, nx*ny * sizeof(real_t),
+                              cudaMemcpyDeviceToHost ) );
+  CUDA_API_CHECK( cudaMemcpy( uy, uy_d, nx*ny * sizeof(real_t),
+                              cudaMemcpyDeviceToHost ) );
+
+  // CUDA_API_CHECK( cudaMemcpy( obstacle, obstacle_d, nx*ny * sizeof(int),
+  //                             cudaMemcpyDeviceToHost ) );
 
   saveVTK(rho, ux, uy, params, useAscii, iTime);
 
