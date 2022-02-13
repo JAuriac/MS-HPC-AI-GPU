@@ -117,7 +117,7 @@ __global__ void border_outflow_kernel(const LBMParams params,
     // const int j = 32 * blockIdx.x + threadIdx.x;
     // int i = threadIdx.x + blockIdx.x*blockDim.x;
     // int j = threadIdx.y + blockIdx.y*blockDim.y;
-    int j = threadIdx.x + blockIdx.x*blockDim.x;
+    int j = threadIdx.y + blockIdx.y*blockDim.y;
     if( (j<ny) ){
 
       int index1 = i1 + nx * j;
@@ -152,7 +152,7 @@ __global__ void border_inflow_kernel(const LBMParams params,
 
   // for (int j = 0; j < ny; ++j) {
     // const int j = 32 * blockIdx.x + threadIdx.x;
-    int j = threadIdx.x + blockIdx.x*blockDim.x;
+    int j = threadIdx.y + blockIdx.y*blockDim.y;
     // int i = threadIdx.x + blockIdx.x*blockDim.x;
     // int j = threadIdx.y + blockIdx.y*blockDim.y;
     if( (i<nx) && (j<ny) ){
@@ -187,7 +187,7 @@ __global__ void update_fin_inflow_kernel(const LBMParams params,
 
   // for (int j = 0; j < ny; ++j) {
     // const int j = 32 * blockIdx.x + threadIdx.x;
-    int j = threadIdx.x + blockIdx.x*blockDim.x;
+    int j = threadIdx.y + blockIdx.y*blockDim.y;
     // int i = threadIdx.x + blockIdx.x*blockDim.x;
     // int j = threadIdx.y + blockIdx.y*blockDim.y;
     if( (i<nx) && (j<ny) ){

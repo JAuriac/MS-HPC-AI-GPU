@@ -197,9 +197,9 @@ void border_outflow(const LBMParams& params, real_t* fin_d)
   // dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
   // dim3 gridSize((ny+blockSize.y-1)/blockSize.y,1,1);
 
-  dim3 blockSize(threadsPerBlockY,1,1);
+  dim3 blockSize(1,threadsPerBlockY,1);
   // dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
-  dim3 gridSize((ny+blockSize.x-1)/blockSize.x,1,1);
+  dim3 gridSize(1,(ny+blockSize.y-1)/blockSize.y,1);
 
   // dim3 blockSize(32,1,1);
   // dim3 gridSize(ny/32,1,1);
@@ -232,9 +232,9 @@ void border_inflow(const LBMParams& params, const real_t* fin_d,
   // dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
   // dim3 gridSize((ny+blockSize.y-1)/blockSize.y,1,1);
 
-  dim3 blockSize(threadsPerBlockY,1,1);
+  dim3 blockSize(1,threadsPerBlockY,1);
   // dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
-  dim3 gridSize((ny+blockSize.x-1)/blockSize.x,1,1);
+  dim3 gridSize(1,(ny+blockSize.y-1)/blockSize.y,1);
 
   // dim3 blockSize(32);
   // dim3 gridSize(ny/32);
@@ -260,9 +260,9 @@ void update_fin_inflow(const LBMParams& params, const real_t* feq_d,
   // unsigned int threadsPerBlockX=32;
   unsigned int threadsPerBlockY=32;
   // dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
-  dim3 blockSize(threadsPerBlockY,1,1);
+  dim3 blockSize(1,threadsPerBlockY,1);
   // dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
-  dim3 gridSize((ny+blockSize.x-1)/blockSize.x,1,1);
+  dim3 gridSize(1,(ny+blockSize.y-1)/blockSize.y,1);
 
   // dim3 blockSize(32);
   // dim3 gridSize(ny/32);
