@@ -126,14 +126,14 @@ void LBMSolver::run()
 
   initialize();
 
-  std::cout << "Après init" << std::endl;
+  // std::cout << "Après init" << std::endl;
 
   // time loop
   for (int iTime=0; iTime<params.maxIter; ++iTime) {
     // std::cout << iTime << std::endl;
 
-    if (iTime % 100 == 0) {
-      output_png(iTime);
+    if (iTime % 1000 == 0) {
+      // output_png(iTime);
       // output_vtk(iTime);
     }
 

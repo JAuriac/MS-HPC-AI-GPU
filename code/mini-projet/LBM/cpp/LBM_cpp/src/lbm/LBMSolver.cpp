@@ -87,7 +87,7 @@ void LBMSolver::run()
     // std::cout << iTime << std::endl;
 
     if (iTime % 1000 == 0) {
-      output_png(iTime);
+      // output_png(iTime);
       // output_vtk(iTime);
     }
 

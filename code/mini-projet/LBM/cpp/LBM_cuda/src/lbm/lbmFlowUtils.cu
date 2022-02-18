@@ -39,7 +39,7 @@ void macroscopic(const LBMParams& params,
   //                    ux_d,
   //                    uy_d);
 
-  CUDA_KERNEL_CHECK( "macroscopic_kernel" );
+  // CUDA_KERNEL_CHECK( "macroscopic_kernel" );
 
 } // macroscopic
 
@@ -74,7 +74,7 @@ void equilibrium(const LBMParams& params,
   //             uy_d,
   //             feq_d);
 
-  CUDA_KERNEL_CHECK( "equilibrium" );
+  // CUDA_KERNEL_CHECK( "equilibrium" );
 
 } // equilibrium
 
@@ -211,7 +211,7 @@ void border_outflow(const LBMParams& params, real_t* fin_d)
   // CUDA_API_CHECK( cudaMemcpy( fin_d, fin, nx*ny * sizeof(real_t),
   //                             cudaMemcpyHostToDevice ) );
 
-  CUDA_KERNEL_CHECK( "border_outflow" );
+  // CUDA_KERNEL_CHECK( "border_outflow" );
 
 } // border_outflow
 
@@ -242,7 +242,7 @@ void border_inflow(const LBMParams& params, const real_t* fin_d,
   // border_inflow_kernel(params, fin_d, 
   //                      rho_d, ux_d, uy_d);
 
-  CUDA_KERNEL_CHECK( "border_inflow" );
+  // CUDA_KERNEL_CHECK( "border_inflow" );
 
 } // border_inflow
 
@@ -270,7 +270,7 @@ void update_fin_inflow(const LBMParams& params, const real_t* feq_d,
   // update_fin_inflow_kernel(params, feq_d, 
   //                          fin_d);
 
-  CUDA_KERNEL_CHECK( "update_fin_inflow" );
+  // CUDA_KERNEL_CHECK( "update_fin_inflow" );
 
 } // update_fin_inflow
   
@@ -299,7 +299,7 @@ void compute_collision(const LBMParams& params,
   //                          feq_d,
   //                          fout_d);
 
-  CUDA_KERNEL_CHECK( "compute_collision_kernel" );
+  // CUDA_KERNEL_CHECK( "compute_collision_kernel" );
 
 } // compute_collision
 
@@ -328,7 +328,7 @@ void update_obstacle(const LBMParams &params,
   //                        obstacle_d, 
   //                        fout_d);
 
-  CUDA_KERNEL_CHECK( "update_obstacle" );
+  // CUDA_KERNEL_CHECK( "update_obstacle" );
 
 } // update_obstacle
 
@@ -357,6 +357,6 @@ void streaming(const LBMParams& params,
   //                  fout_d,
   //                  fin_d);
 
-  CUDA_KERNEL_CHECK( "streaming_kernel" );
+  // CUDA_KERNEL_CHECK( "streaming_kernel" );
 
 } // streaming

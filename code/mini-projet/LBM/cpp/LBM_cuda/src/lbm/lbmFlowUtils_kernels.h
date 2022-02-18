@@ -332,7 +332,7 @@ __global__ void streaming_kernel(const LBMParams params,
 
           int index_out = i_out + nx*j_out + ipop*nxny;
 
-          fin_d[index_in] = fin_d[index_out];
+          fin_d[index_in] = fout_d[index_out];
 
         } // end for ipop
       }
