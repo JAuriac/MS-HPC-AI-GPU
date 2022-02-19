@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/Julian.AURIAC/MS-HPC-AI-GPU/code/mini-projet/LBM/cpp/LBM_cpp/src/utils/writePNG/example_encode_PNG.cpp
+lodepng.h
+/home/Julian.AURIAC/MS-HPC-AI-GPU/code/mini-projet/LBM/cpp/LBM_cpp/src/utils/writePNG/lodepng.h
+iostream
+-
+
+/home/Julian.AURIAC/MS-HPC-AI-GPU/code/mini-projet/LBM/cpp/LBM_cpp/src/utils/writePNG/lodepng.h
+string.h
+-
+vector
+-
+string
+-
+lodepng.h
+/home/Julian.AURIAC/MS-HPC-AI-GPU/code/mini-projet/LBM/cpp/LBM_cpp/src/utils/writePNG/lodepng.h
+iostream
+-
+lodepng.h
+/home/Julian.AURIAC/MS-HPC-AI-GPU/code/mini-projet/LBM/cpp/LBM_cpp/src/utils/writePNG/lodepng.h
+

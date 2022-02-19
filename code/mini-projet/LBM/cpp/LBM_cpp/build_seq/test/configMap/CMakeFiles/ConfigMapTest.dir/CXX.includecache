@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../src/utils/config/ConfigMap.h
+inih/INIReader.h
+../src/utils/config/inih/INIReader.h
+
+../src/utils/config/inih/INIReader.h
+map
+-
+string
+-
+
+/home/Julian.AURIAC/MS-HPC-AI-GPU/code/mini-projet/LBM/cpp/LBM_cpp/test/configMap/ConfigMapTest.cpp
+iostream
+-
+fstream
+-
+string
+-
+cstring
+-
+sstream
+-
+config/ConfigMap.h
+/home/Julian.AURIAC/MS-HPC-AI-GPU/code/mini-projet/LBM/cpp/LBM_cpp/test/configMap/config/ConfigMap.h
+

@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../src/lbm/LBMParams.h
+utils/config/ConfigMap.h
+../src/lbm/utils/config/ConfigMap.h
+real_type.h
+../src/lbm/real_type.h
+
+../src/lbm/real_type.h
+math.h
+-
+
+../src/utils/config/ConfigMap.h
+inih/INIReader.h
+../src/utils/config/inih/INIReader.h
+
+../src/utils/config/inih/INIReader.h
+map
+-
+string
+-
+
+../src/utils/writeVTK/saveVTK.h
+lbm/LBMParams.h
+../src/utils/writeVTK/lbm/LBMParams.h
+lbm/real_type.h
+../src/utils/writeVTK/lbm/real_type.h
+
+/home/Julian.AURIAC/MS-HPC-AI-GPU/code/mini-projet/LBM/cpp/LBM_cpp/src/utils/writeVTK/testVTK.cpp
+cstdlib
+-
+iostream
+-
+utils/writeVTK/saveVTK.h
+/home/Julian.AURIAC/MS-HPC-AI-GPU/code/mini-projet/LBM/cpp/LBM_cpp/src/utils/writeVTK/utils/writeVTK/saveVTK.h
+utils/config/ConfigMap.h
+/home/Julian.AURIAC/MS-HPC-AI-GPU/code/mini-projet/LBM/cpp/LBM_cpp/src/utils/writeVTK/utils/config/ConfigMap.h
+

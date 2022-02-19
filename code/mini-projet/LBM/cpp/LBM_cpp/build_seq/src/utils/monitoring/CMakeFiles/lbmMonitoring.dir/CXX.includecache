@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/Julian.AURIAC/MS-HPC-AI-GPU/code/mini-projet/LBM/cpp/LBM_cpp/src/utils/monitoring/OpenMPTimer.cpp
+OpenMPTimer.h
+/home/Julian.AURIAC/MS-HPC-AI-GPU/code/mini-projet/LBM/cpp/LBM_cpp/src/utils/monitoring/OpenMPTimer.h
+stdexcept
+-
+
+/home/Julian.AURIAC/MS-HPC-AI-GPU/code/mini-projet/LBM/cpp/LBM_cpp/src/utils/monitoring/OpenMPTimer.h
+omp.h
+-
+
+/home/Julian.AURIAC/MS-HPC-AI-GPU/code/mini-projet/LBM/cpp/LBM_cpp/src/utils/monitoring/SimpleTimer.cpp
+SimpleTimer.h
+/home/Julian.AURIAC/MS-HPC-AI-GPU/code/mini-projet/LBM/cpp/LBM_cpp/src/utils/monitoring/SimpleTimer.h
+stdexcept
+-
+
+/home/Julian.AURIAC/MS-HPC-AI-GPU/code/mini-projet/LBM/cpp/LBM_cpp/src/utils/monitoring/SimpleTimer.h
+time.h
+-
+sys/time.h
+-
+
