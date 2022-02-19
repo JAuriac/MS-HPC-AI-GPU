@@ -41,6 +41,12 @@ int main(int argc, char* argv[])
   timer.stop();
   std::cout << timer.elapsed() << std::endl;
 
+  const int nx = params.nx;
+  const int ny = params.ny;
+  const int maxIter = params.maxIter;
+
+  printf("Results;%d;%d;%f\n", nx*ny, maxIter, timer.elapsed());
+
   delete solver;
 
   return EXIT_SUCCESS;

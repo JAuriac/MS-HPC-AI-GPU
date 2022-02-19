@@ -24,7 +24,7 @@ void macroscopic(const LBMParams& params,
   // dim3 gridSize((N+1)/nbThreads,1,1);
 
   unsigned int threadsPerBlockX=32;
-  unsigned int threadsPerBlockY=32;
+  unsigned int threadsPerBlockY=10;
   dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
   dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
 
@@ -59,7 +59,7 @@ void equilibrium(const LBMParams& params,
 
   // TODO : call kernel
   unsigned int threadsPerBlockX=32;
-  unsigned int threadsPerBlockY=32;
+  unsigned int threadsPerBlockY=10;
   dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
   dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
 
@@ -192,7 +192,7 @@ void border_outflow(const LBMParams& params, real_t* fin_d)
 
   // TODO : call kernel
   // unsigned int threadsPerBlockX=32;
-  unsigned int threadsPerBlockY=32;
+  unsigned int threadsPerBlockY=10;
   // dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
   // dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
   // dim3 gridSize((ny+blockSize.y-1)/blockSize.y,1,1);
@@ -227,7 +227,7 @@ void border_inflow(const LBMParams& params, const real_t* fin_d,
 
   // TODO : call kernel
   // unsigned int threadsPerBlockX=32;
-  unsigned int threadsPerBlockY=32;
+  unsigned int threadsPerBlockY=10;
   // dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
   // dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
   // dim3 gridSize((ny+blockSize.y-1)/blockSize.y,1,1);
@@ -258,7 +258,7 @@ void update_fin_inflow(const LBMParams& params, const real_t* feq_d,
 
   // TODO : call kernel
   // unsigned int threadsPerBlockX=32;
-  unsigned int threadsPerBlockY=32;
+  unsigned int threadsPerBlockY=10;
   // dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
   dim3 blockSize(1,threadsPerBlockY,1);
   // dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
@@ -287,7 +287,7 @@ void compute_collision(const LBMParams& params,
 
   // TODO : call kernel
   unsigned int threadsPerBlockX=32;
-  unsigned int threadsPerBlockY=32;
+  unsigned int threadsPerBlockY=10;
   dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
   dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
 
@@ -316,7 +316,7 @@ void update_obstacle(const LBMParams &params,
 
   // TODO : call kernel
   unsigned int threadsPerBlockX=32;
-  unsigned int threadsPerBlockY=32;
+  unsigned int threadsPerBlockY=10;
   dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
   dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
 
@@ -345,7 +345,7 @@ void streaming(const LBMParams& params,
 
   // TODO : call kernel
   unsigned int threadsPerBlockX=32;
-  unsigned int threadsPerBlockY=32;
+  unsigned int threadsPerBlockY=10;
   dim3 blockSize(threadsPerBlockX,threadsPerBlockY,1);
   dim3 gridSize((nx+blockSize.x-1)/blockSize.x,(ny+blockSize.y-1)/blockSize.y,1);
 

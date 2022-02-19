@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/testVTK.dir/testVTK.cpp.o -o testVTK   -L/usr/local/cuda-11.5/targets/x86_64-linux/lib/stubs  -L/usr/local/cuda-11.5/targets/x86_64-linux/lib  libsaveVTK.a ../config/libconfig.a ../../lbm/liblbmCore.a -lcudadevrt -lcudart_static -lrt -lpthread -ldl 

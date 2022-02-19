@@ -82,9 +82,7 @@ int main(int argc, char* argv[])
   // printf("Parser;%d;%d;%f;%f;%3.5f;%f\n", nx*ny, maxIter,gpuTimer.elapsed(),4,5,total_cost);
   printf("Results;%d;%d;%f;%f\n", nx*ny, maxIter, gpuTimer.elapsed(), GFLOPs);
 
-
-
-  // delete solver;
+  delete solver;
 
   return EXIT_SUCCESS;
 }

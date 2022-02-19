@@ -1,6 +1,6 @@
 #!/bin/bash
 
-csvfile=csv/CPU.csv
+csvfile=csv/GPU.csv
 #init=flowAroundCylinder.ini
 
 echo "Running"
@@ -34,6 +34,6 @@ for i in "${!array[@]}"; do
   echo "${nxny};${maxIter};${elapsed};${total_cost}" >> $csvfile
 done
 
-#rm tmp_log
+rm tmp_log
 
 echo "Done"
